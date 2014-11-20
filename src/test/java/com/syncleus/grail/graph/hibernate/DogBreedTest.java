@@ -2,6 +2,7 @@ package com.syncleus.grail.graph.hibernate;
 
 import com.syncleus.grail.graph.hibernate.domain.Breed;
 import com.syncleus.grail.graph.hibernate.domain.Dog;
+import junit.framework.Assert;
 import org.hibernate.ogm.util.impl.Log;
 import org.hibernate.ogm.util.impl.LoggerFactory;
 import org.junit.Test;
@@ -28,7 +29,6 @@ public class DogBreedTest {
 		//Persist entities the way you are used to in plain JPA
 		try {
 			tm.begin();
-//			logger.infof( "About to store dog and breed" );
 			EntityManager em = emf.createEntityManager();
 			Breed collie = new Breed();
 			collie.setName( "Collie" );
@@ -43,11 +43,11 @@ public class DogBreedTest {
 			tm.commit();
 
 			//Retrieve your entities the way you are used to in plain JPA
-//			logger.infof( "About to retrieve dog and breed" );
 			tm.begin();
 			em = emf.createEntityManager();
 			dina = em.find( Dog.class, dinaId );
-//			logger.infof( "Found dog %s of breed %s", dina.getName(), dina.getBreed().getName() );
+			Assert.assertEquals("Dina", dina.getName());
+			Assert.assertEquals("Collie", dina.getBreed().getName());
 			em.flush();
 			em.close();
 			tm.commit();
